@@ -1,0 +1,731 @@
+DATALOGUE
+<div class="container">
+	<div class="row">
+		<button (click)="reset('default')" class="btn btn-default">Défaut</button>
+		<button (click)="btnSetData()" class="btn btn-default">Set Data</button>
+		<button (click)="changeState('listoj')" class="btn btn-secondary">List OJ</button>
+	</div>
+</div>
+<br>
+
+<!-- Liste OJ -->
+<div *ngIf="appState =='listoj'" class="panel panel-default">	
+	<div class="panel-heading">
+		List des OJ
+	</div>
+
+	<div class="panel-body">
+		<div class="container">
+
+			<!-- Bouton Ajouter OJ -->
+			<div *ngIf="addojbtn" class="row">
+				<div class="col-md-11 offset-md-1">
+					<button class="btn btn-primary" (click)="btnAddOj()">
+						Ajouter une ASBL
+					</button>
+				</div>
+			</div>
+
+			<!-- AJOUT OJ -->
+			<div *ngIf="!addojbtn" class="row">
+				<div class="col-md-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							Ajouter une asbl
+						</div>
+						<div class="panel-body">
+							<form (submit)="addOj(nomoj.value)">
+								<div class="row">
+									<div class="col-md-12">
+										<label> Nom : 
+										<input type="text" placeholder="Nom de l'asbl" #nomoj>
+										</label>
+									</div>
+								</div>
+
+						        <div class="row">
+						          <div class="col-md-12">
+						            <input type="submit" class="btn btn-primary" value="Ajouter">  
+						          </div>  
+						        </div>			
+							</form>
+						</div>					
+					</div>
+				</div>
+			</div>
+			<br>
+			<div class="row col-md-11 offset-md-1">
+				<br>
+				<label>Filtre</label>
+				<div class="container-fluid">
+					<div class="row">
+						<div class="dropdown col-md-2">
+						  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						    Type
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						    <li><a href="#">Tout</a></li>
+						    <li><a href="#">Maison des Jeunes</a></li>
+						    <li><a href="#">Aide en Milieu Ouvert</a></li>
+						    <li><a href="#">Centre de Rencontres et d'Hébergement</a></li>
+						  </ul>
+						</div>
+						<div class="dropdown col-md-2">
+						  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						    Affiliation
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						    <li><a href="#">Tout</a></li>
+						    <li><a href="#">Maison des Jeunes</a></li>
+						    <li><a href="#">Aide en Milieu Ouvert</a></li>
+						    <li><a href="#">Centre de Rencontres et d'Hébergement</a></li>
+						  </ul>
+						</div>
+						<div class="dropdown col-md-2">
+						  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						    Province
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						    <li><a href="#">Tout</a></li>
+						    <li><a href="#">Maison des Jeunes</a></li>
+						    <li><a href="#">Aide en Milieu Ouvert</a></li>
+						    <li><a href="#">Centre de Rencontres et d'Hébergement</a></li>
+						  </ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- List des oj -->
+			<div class="row">
+				<div class="col-md-11">
+					<!--<div *ngIf="ojs">-->
+					<div>
+						<table class="table table-striped table-hover ">
+							<thead>
+								<tr>
+									<th>Nom</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let oj of listeOj">
+									<td (click)="setActiveOj(oj)">{{oj.nom}}</td>
+									<td>
+										<button (click)="deleteOj(oj)" class="btn btn-danger btn-xs">Delete</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Datalogue -->
+<div *ngIf="appState=='datalogue'" class="container well">
+	<header *ngIf="ojActive" class="oj-header">
+		<div class="row">
+			<div class="col-md-2 well">
+				<img class="thumbnail logo" src="{{institution.photo}}"/>
+			</div>
+			<div class="col-md-3 well">
+				<h3>{{ojActive.nom}}</h3>
+				<p>{{institution.type}}</p>
+				<p>{{institution.cat}}</p>
+			</div>
+		</div>
+	</header>
+	<div class="datalogue-content">
+		<div class="">
+			<div class="row">
+				<div class="col-md-10">
+					<button (click)="changeDataState('institution')" class="btn btn-secondary">Institution</button>
+					<button (click)="changeDataState('equipe')" class="btn btn-secondary">Equipe</button>
+					<button (click)="changeDataState('actions')" class="btn btn-secondary">Actions</button>
+					<button (click)="changeDataState('matut')" class="btn btn-secondary">Matériel Utile</button>
+					<button (click)="changeDataState('productions')" class="btn btn-secondary">Productions</button>
+					<button (click)="changeDataState('docadm')" class="btn btn-secondary">Documents</button>
+					<button (click)="changeDataState('environnement')" class="btn btn-secondary">Environnement</button>
+					<button (click)="changeDataState('ca')" class="btn btn-secondary">CA</button>
+					<button (click)="changeDataState('ag')" class="btn btn-secondary">AG</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- DATALOGUE-CONTENT -->
+		<div class="">
+			<!-- Institution -->
+			<div *ngIf="dataState=='institution'" class="">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Institution
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-2 ">
+								<img class="thumbnail logo" src="{{institution.logo}}"/>
+							</div>
+							<div class="col-md-4 ">
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon1">Nom</span>
+								  <input type="text" class="form-control textright" placeholder="Nom de l'Asbl" aria-describedby="basic-addon1" [(ngModel)]="institution.nomoj" name="nomoj" #nomoj>
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon1">Type</span>
+								  <input type="text" class="form-control textright" placeholder="Type de l'asbl" aria-describedby="basic-addon1" [(ngModel)]="institution.type" name="type" #type>
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon1">Niveau</span>
+								  <input type="text" class="form-control textright" placeholder="niveau d'agrément" aria-describedby="basic-addon1" [(ngModel)]="institution.nivagr" name="nivagr" #nivagr>
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon1">Date d'agrément</span>
+								  <input type="text" class="form-control textright" placeholder="Date de l'obtention de l'agrément" aria-describedby="basic-addon1" [(ngModel)]="institution.agrement" name="agrement" #agrement>
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon1">Affiliation</span>
+								  <input type="text" class="form-control textright" placeholder="affiliation" aria-describedby="basic-addon1" [(ngModel)]="institution.cat" name="cat" #cat>
+								</div>
+							</div>
+							<div class="col-md-4 ">
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon1">Date de fondation</span>
+								  <input type="text" class="form-control textright" placeholder="Date de fondation de l'asbl" aria-describedby="basic-addon1" [(ngModel)]="institution.fondee" name="fondee" #fondee>
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon1">Numéro d'entreprise</span>
+								  <input type="text" class="form-control textright" placeholder="Numéro d'entreprise" aria-describedby="basic-addon1" [(ngModel)]="institution.nument" name="nument" #nument>
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon1">IBAN</span>
+								  <input type="text" class="form-control textright" placeholder="numéro IBAN" aria-describedby="basic-addon1" [(ngModel)]="institution.iban" name="iban" #iban>
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon1">Nombre de membre</span>
+								  <input type="text" class="form-control textright" placeholder="Nombre de membre" aria-describedby="basic-addon1" [(ngModel)]="institution.membre" name="membre" #membre>
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon1">Logo</span>
+								  <input type="text" class="form-control textright" placeholder="url du logo" aria-describedby="basic-addon1" [(ngModel)]="institution.logo" name="logo" #logo>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Equipe -->
+			<div *ngIf="dataState=='equipe'">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Equipe
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="btn-group btn-group-justified" role="group" aria-label="Justified button group">
+								  <div class="btn-group" role="group">
+								    <button *ngIf="addEqBtn" (click)="btnAddEq()" type="button" class="btn btn-success">Ajouter une nouvelle personne</button>
+								  </div>
+								</div>
+								<br>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-2 ">
+								<img class="thumbnail logo" src="{{employeActif.photo}}"/>
+								<div class="btn-group btn-group-justified" role="group" aria-label="Justified button group">
+								  <div class="btn-group" role="group">
+								    <button *ngIf="addEqBtn" (click)="btnUpdEq()" type="button" class="btn btn-primary">Sauvegarder</button>
+								  </div>
+								</div>
+							</div>
+							<div class="col-md-3 ">
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon1">Sexe</span>
+								  <input type="text" class="form-control textright" placeholder="Nom de l'Asbl" aria-describedby="basic-addon1" [(ngModel)]="employeActif.sexe" name="nomoj" #sexe>
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon1">Prénom</span>
+								  <input type="text" class="form-control textright" placeholder="Prénom" aria-describedby="basic-addon1" [(ngModel)]="employeActif.pnom" name="pnom" #pnom>
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon1">Nom</span>
+								  <input type="text" class="form-control textright" placeholder="Niveau d'agrément" aria-describedby="basic-addon1" [(ngModel)]="employeActif.nom" name="nom" #nom>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon1">Téléphone</span>
+								  <input type="text" class="form-control textright" placeholder="Numéro de téléphone" aria-describedby="basic-addon1" [(ngModel)]="employeActif.tel" name="tel" #tel>
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon1">E-mail</span>
+								  <input type="text" class="form-control textright" placeholder="Adresse E-mail" aria-describedby="basic-addon1" [(ngModel)]="employeActif.email" name="email" #email>
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon1">Rôle</span>
+								  <input type="text" class="form-control textright" placeholder="Role" aria-describedby="basic-addon1" [(ngModel)]="employeActif.role" name="role" #role>
+								</div>
+							</div>
+							<div class="col-md-3 ">
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon1">Date d'engagement</span>
+								  <input type="text" class="form-control textright" placeholder="Date d'engagement" aria-describedby="basic-addon1" [(ngModel)]="employeActif.engagele" name="engagele" #engagele>
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon1">Qualification</span>
+								  <input type="text" class="form-control textright" placeholder="Niveau de Qualification" aria-describedby="basic-addon1" [(ngModel)]="employeActif.qualif" name="qualif" #qualif>
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon1">Date de qualification</span>
+								  <input type="text" class="form-control textright" placeholder="Date de qualification" aria-describedby="basic-addon1" [(ngModel)]="employeActif.datequalif" name="datequalif" #datequalif>
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon1">Contrat</span>
+								  <input type="text" class="form-control textright" placeholder="Type de contrat" aria-describedby="basic-addon1" [(ngModel)]="employeActif.contrat" name="contrat" #contrat>
+								</div>
+								<div class="input-group">
+								  <span class="input-group-addon" id="basic-addon1">ETP</span>
+								  <input type="text" class="form-control textright" placeholder="Estimation temps plein" aria-describedby="basic-addon1" [(ngModel)]="employeActif.etp" name="etp" #etp>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<!-- AJOUT PERSONNE -->
+							<div *ngIf="!addEqBtn" class="row">
+								<div class="col-md-4">
+								<h3>Ajouter une personne</h3>
+									<form (submit)="addEq(
+									sexe.value,
+									pnom.value,
+									nom.value,
+									tel.value,
+									email.value,
+									role.value
+									)">
+											<div class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">Sexe</span>
+											  <input type="text" class="form-control textright" placeholder="Sexe" aria-describedby="basic-addon1" #sexe>
+											</div>
+											<div class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">Prénom</span>
+											  <input type="text" class="form-control textright" placeholder="Prénom" aria-describedby="basic-addon1" #pnom>
+											</div>
+											<div class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">Nom</span>
+											  <input type="text" class="form-control textright" placeholder="Nom" aria-describedby="basic-addon1" #nom>
+											</div>											
+											<div class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">Téléphone</span>
+											  <input type="text" class="form-control textright" placeholder="Numéro de téléphone" aria-describedby="basic-addon1" #tel>
+											</div>
+											<div class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">E-mail</span>
+											  <input type="text" class="form-control textright" placeholder="Adresse E-mail" aria-describedby="basic-addon1" #email>
+											</div>
+											<div class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">Rôle</span>
+											  <input type="text" class="form-control textright" placeholder="Rôle" aria-describedby="basic-addon1" #role>
+											</div>
+									        <div class="row">
+									          <div class="col-md-12">
+									            <input type="button" class="btn btn-primary" value="Ajouter">  
+									          </div>  
+									        </div>			
+									</form>
+
+								</div>
+							</div>
+						</div>
+						<hr>
+						<div class="row">
+							<!-- List du personnel -->
+							<div class="row">
+								<div class="col-md-11">
+									<!--<div *ngIf="ojs">-->
+									<div>
+										<table class="table table-striped table-hover ">
+											<thead>
+												<tr>
+													<th>Prénom</th>
+													<th>Nom</th>
+													<th>Rôle</th>
+													<th>E-mail</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr *ngFor="let personne of equipe" (click)="setEmployeActif(personne)">
+													<td>{{personne.pnom}}</td>
+													<td>{{personne.nom}}</td>
+													<td>{{personne.role}}</td>
+													<td>{{personne.email}}</td>
+													<td>
+														<button (click)="deletePersonne(personne)" class="btn btn-danger btn-xs">X</button>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+			<!-- Actions -->
+			<div *ngIf="dataState=='actions'">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Actions
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="btn-group btn-group-justified" role="group" aria-label="Justified button group">
+								  <div class="btn-group" role="group">
+								    <button (click)="btnAddAction()" type="button" class="btn btn-success">Créer une nouvelle action</button>
+								  </div>
+								</div>
+								<br>
+							</div>
+						</div>
+						<div class="row">
+
+							<!-- SHOW -->
+							<div *ngIf="actionsState=='show'" class="panel panel-default well">
+								<div class="panel-heading">
+									{{actionActive.titre}}
+								</div>
+								<div class="panel-body">
+									<div class="row">
+										<div class="col-md-2 ">
+											<img class="thumbnail logo" src="{{actionActive.logo}}"/>
+										</div>
+										<div class="col-md-4 ">
+											<div class="input-group">
+											  <span class="input-group-addon">Titre</span>
+											  <input type="text" class="form-control textright" disabled="disabled" [(ngModel)]="actionActive.titre">
+											</div>
+											<div class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">Type</span>
+											  <input type="text" class="form-control textright" disabled="disabled" [(ngModel)]="actionActive.type">
+											</div>
+											<div class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">Année</span>
+											  <input type="text" class="form-control textright" disabled="disabled" [(ngModel)]="actionActive.annee">
+											</div>
+											<div class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">Theme</span>
+											  <input type="text" class="form-control textright" disabled="disabled" [(ngModel)]="actionActive.theme">
+											</div>
+											<div class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">Public Cible</span>
+											  <input type="text" class="form-control textright" disabled="disabled" [(ngModel)]="actionActive.pubcib">
+											</div>
+										</div>
+										<div class="col-md-4 ">
+											<div class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">Fréquence</span>
+											  <input type="text" class="form-control textright" disabled="disabled" [(ngModel)]="actionActive.freq">
+											</div>
+											<div class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">Durée</span>
+											  <input type="text" class="form-control textright" disabled="disabled" [(ngModel)]="actionActive.duree">
+											</div>
+											<div class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">Temporaire</span>
+											  <input type="radio" class="form-control textright" disabled="disabled" [(ngModel)]="actionActive.temporaire">
+											</div>
+											<div *ngIf="actionActive.temporaire" class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">Du</span>
+											  <input type="text" class="form-control textright" disabled="disabled" [(ngModel)]="actionActive.du">
+											</div>
+											<div *ngIf="actionActive.temporaire" class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">Au</span>
+											  <input type="text" class="form-control textright" disabled="disabled" [(ngModel)]="actionActive.pubcib">
+											</div>
+										</div>
+										<div class="col-md-2 ">
+											<button (click)="btnEditAction()" type="button" class="btn btn-primary btn-xs">Editer</button>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- EDIT -->
+							<div *ngIf="actionsState=='edit'" class="panel panel-default well">
+								<div class="panel-heading">
+									Editer
+								</div>
+								<div class="panel-body">
+									<div class="row">
+										<div class="col-md-2 ">
+											<img class="thumbnail logo" src="{{actionActive.logo}}"/>
+										</div>
+										<div class="col-md-4 ">
+											<div class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">Titre</span>
+											  <input type="text" class="form-control textright" placeholder="Titre de l'activité" aria-describedby="basic-addon1" [(ngModel)]="actionActive.titre" name="titre" #titre>
+											</div>
+											<div class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">Type</span>
+											  <input type="text" class="form-control textright" placeholder="Type de l'activité" aria-describedby="basic-addon1" [(ngModel)]="actionActive.type" name="type" #type>
+											</div>
+											<div class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">Année</span>
+											  <input type="text" class="form-control textright" placeholder="Année" aria-describedby="basic-addon1" [(ngModel)]="actionActive.annee" name="annee" #annee>
+											</div>
+											<div class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">Theme</span>
+											  <input type="text" class="form-control textright" placeholder="Date de l'obtention de l'agrément" aria-describedby="basic-addon1" [(ngModel)]="actionActive.theme" name="theme" #theme>
+											</div>
+											<div class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">Public Cible</span>
+											  <input type="text" class="form-control textright" placeholder="affiliation" aria-describedby="basic-addon1" [(ngModel)]="actionActive.pubcib" name="pubcib" #pubcib>
+											</div>
+										</div>
+										<div class="col-md-4 ">
+											<div class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">Fréquence</span>
+											  <input type="text" class="form-control textright" placeholder="Fréquence de l'activité" aria-describedby="basic-addon1" [(ngModel)]="actionActive.freq" name="freq" #freq>
+											</div>
+											<div class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">Durée</span>
+											  <input type="text" class="form-control textright" placeholder="Durée de l'activité" aria-describedby="basic-addon1" [(ngModel)]="actionActive.duree" name="duree" #duree>
+											</div>
+											<div class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">Temporaire</span>
+											  <input type="checkbox" class="form-control textright" placeholder="temporaire" aria-describedby="basic-addon1" [(ngModel)]="actionActive.temporaire" name="temporaire" #temporaire>
+											</div>
+											<div *ngIf="actionActive.temporaire" class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">Du</span>
+											  <input type="text" class="form-control textright" placeholder="A partir du" aria-describedby="basic-addon1" [(ngModel)]="actionActive.du" name="du" #du>
+											</div>
+											<div *ngIf="actionActive.temporaire" class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">Au</span>
+											  <input type="text" class="form-control textright" placeholder="affiliation" aria-describedby="basic-addon1" [(ngModel)]="actionActive.pubcib" name="pubcib" #au>
+											</div>
+										</div>
+										<div class="col-md-2 ">
+											<button (click)="updAction()" type="button" class="btn btn-primary btn-xs">Sauvegarder</button>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- NEW -->
+							<div *ngIf="actionsState=='new'" class="panel panel-default well">
+								<div class="panel-heading">
+									Ajouter une action
+								</div>
+								<div class="panel-body">
+									<form (submit)="addAction(
+											titre.value,
+											type.value,
+											annee.value,
+											theme.value,
+											pubcib.value,
+											freq.value,
+											duree.value,
+											du.value,
+											au.value)">
+										<div class="row">
+											<div class="col-md-2 ">
+												<img class="thumbnail logo" src=""/>
+											</div>
+											<div class="col-md-4 ">
+												<div class="input-group">
+												  <span class="input-group-addon" id="basic-addon1">Titre</span>
+												  <input type="text" class="form-control textright" placeholder="Titre de l'activité" aria-describedby="basic-addon1" name="titre" #titre>
+												</div>
+												<div class="input-group">
+												  <span class="input-group-addon" id="basic-addon1">Type</span>
+												  <input type="text" class="form-control textright" placeholder="Type de l'activité" aria-describedby="basic-addon1" name="type" #type>
+												</div>
+												<div class="input-group">
+												  <span class="input-group-addon" id="basic-addon1">Année</span>
+												  <input type="text" class="form-control textright" placeholder="Année" aria-describedby="basic-addon1" name="annee" #annee>
+												</div>
+												<div class="input-group">
+												  <span class="input-group-addon" id="basic-addon1">Theme</span>
+												  <input type="text" class="form-control textright" placeholder="Date de l'obtention de l'agrément" aria-describedby="basic-addon1" name="theme" #theme>
+												</div>
+												<div class="input-group">
+												  <span class="input-group-addon" id="basic-addon1">Public Cible</span>
+												  <input type="text" class="form-control textright" placeholder="affiliation" aria-describedby="basic-addon1" name="pubcib" #pubcib>
+												</div>
+											</div>
+											<div class="col-md-4 ">
+												<div class="input-group">
+												  <span class="input-group-addon" id="basic-addon1">Fréquence</span>
+												  <input type="text" class="form-control textright" placeholder="Fréquence de l'activité" aria-describedby="basic-addon1" name="freq" #freq>
+												</div>
+												<div class="input-group">
+												  <span class="input-group-addon" id="basic-addon1">Durée</span>
+												  <input type="text" class="form-control textright" placeholder="Durée de l'activité" aria-describedby="basic-addon1" name="duree" #duree>
+												</div>
+												<div class="input-group">
+												  <span class="input-group-addon" id="basic-addon1">Temporaire</span>
+												  <input type="checkbox" class="form-control textright" placeholder="temporaire" aria-describedby="basic-addon1" name="temporaire" #temporaire>
+												</div>
+												<div *ngIf="actionActive.temporaire" class="input-group">
+												  <span class="input-group-addon" id="basic-addon1">Du</span>
+												  <input type="text" class="form-control textright" placeholder="A partir du" aria-describedby="basic-addon1" name="du" #du>
+												</div>
+												<div *ngIf="actionActive.temporaire" class="input-group">
+												  <span class="input-group-addon" id="basic-addon1">Au</span>
+												  <input type="text" class="form-control textright" placeholder="affiliation" aria-describedby="basic-addon1" name="au" #au>
+												</div>
+											</div>
+												<input type="submit" class="btn btn-primary" value="Ajouter"> 
+												<!--<button type="submit" class="btn btn-primary btn-xs">Ajouter</button> -->
+										</div>
+									</form>
+								</div>
+							</div>
+
+							<!-- Liste -->
+
+							<!-- Filtre -->
+
+							<div class="btn-group btn-group-justified" role="group" aria-label="...">
+								<div class="btn-group" role="group">
+									<button type="button" class="btn btn-default">Actions Socioculturelles</button>
+								</div>
+								<div class="btn-group" role="group">
+									<button type="button" class="btn btn-default">Actions Collectives</button>
+								</div>
+								<div class="btn-group" role="group">
+									<button type="button" class="btn btn-default">Actions Ouvertes à la Population</button>
+								</div>
+							</div>
+
+							<!-- Liste Actions -->
+							<table class="table table-striped table-hover ">
+								<thead>
+									<tr>
+										<th>Titre</th>
+										<th>Type</th>
+										<th>Thème</th>
+										<th>Année</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let action of actions" (click)="btnSelectAction(action)">
+										<td>{{action.titre}}</td>
+										<td>{{action.type}}</td>
+										<td>{{action.theme}}</td>
+										<td>{{action.annee}}</td>
+										<td>
+											<button (click)="deleteAction(action)" class="btn btn-danger btn-xs">X</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+			<!-- Materiel Utile -->
+			<div *ngIf="dataState=='matut'">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Materiel Utile
+					</div>
+					<div class="panel-body">
+
+					</div>
+				</div>
+			</div>
+
+
+
+			<!-- Production -->
+			<div *ngIf="dataState=='productions'">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Production
+					</div>
+					<div class="panel-body">
+
+					</div>
+				</div>
+			</div>
+
+
+
+			<!-- Document Administratif -->
+			<div *ngIf="dataState=='docadm'">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Document Administratif
+					</div>
+					<div class="panel-body">
+
+					</div>
+				</div>
+			</div>
+
+
+
+			<!-- Conseil d'administration -->
+			<div *ngIf="dataState=='ca'">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Conseil d'administration
+					</div>
+					<div class="panel-body">
+
+					</div>
+				</div>
+			</div>
+
+
+
+			<!-- Assemblée Générale -->
+			<div *ngIf="dataState=='ag'">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Assemblée Générale
+					</div>
+					<div class="panel-body">
+
+					</div>
+				</div>
+			</div>
+
+
+
+			<!-- Environnement -->
+			<div *ngIf="dataState=='environnement'">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Environnement
+					</div>
+					<div class="panel-body">
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="col-md-10">
+	<editor></editor>
+</div>
