@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
+var core_1 = require("@angular/core");
 var DatalogueComponent = (function () {
     function DatalogueComponent() {
         this.hideInstitution = false;
@@ -29,7 +29,7 @@ var DatalogueComponent = (function () {
         this.equipe = null;
         this.actions = null;
         this.actionActive = null;
-        this.materielutile = null;
+        this.materielUtile = null;
         this.materielActif = null;
         this.productions = null;
         this.productionActive = null;
@@ -38,9 +38,13 @@ var DatalogueComponent = (function () {
         this.environnement = null;
         this.liaisonActive = null;
         this.appState = 'datalogue';
-        this.dataState = 'actions';
+        this.dataState = 'matut';
         this.institutionState = 'default';
         this.actionsState = 'default';
+        this.listeOj = [];
+        this.equipe = [];
+        this.actions = [];
+        this.materielUtile = [];
         //bouton
         // MAINT
         this.setDataDefault();
@@ -57,6 +61,9 @@ var DatalogueComponent = (function () {
     };
     DatalogueComponent.prototype.changeActionsState = function (state) {
         this.actionsState = state;
+    };
+    DatalogueComponent.prototype.changeMatUtState = function (state) {
+        this.matutState = state;
     };
     // SET
     DatalogueComponent.prototype.setListeOj = function (listoj) {
@@ -87,9 +94,18 @@ var DatalogueComponent = (function () {
     DatalogueComponent.prototype.setActionActive = function (action) {
         this.actionActive = action;
     };
+    DatalogueComponent.prototype.setMaterielUtile = function (matut) {
+        this.materielUtile = matut;
+    };
+    DatalogueComponent.prototype.setMaterielActif = function (matut) {
+        this.materielActif = matut;
+    };
     // UPDATE
     DatalogueComponent.prototype.updAction = function () {
-        this.changeActionsState('default');
+        this.changeActionsState('show');
+    };
+    DatalogueComponent.prototype.updMateriel = function () {
+        this.changeMatUtState('default');
     };
     // ADD
     DatalogueComponent.prototype.addOj = function (nomoj) {
@@ -113,11 +129,10 @@ var DatalogueComponent = (function () {
         this.btnAddEq();
     };
     //, annee:string, theme:string, pubcib:string, freq:string, duree:string, temporaire:boolean, du:string, au:string
-    DatalogueComponent.prototype.addAction = function (titre, type, annee, theme, pubcib, freq, duree, du, au) {
+    DatalogueComponent.prototype.addAction = function (titre, type, annee, theme, pubcib, freq, duree, temporaire, du, au) {
         if (du === void 0) { du = ''; }
         if (au === void 0) { au = ''; }
-        console.log("hellodsfd/ndfsdf/ndfsdfsdf./ndfsdfs");
-        var newAction = {
+        this.setActionActive({
             $key: '',
             nomoj: '',
             annee: '',
@@ -132,38 +147,47 @@ var DatalogueComponent = (function () {
             au: '',
             temporaire: false,
             dernieremodifpar: ''
-        };
-        newAction.$key = '32';
-        newAction.nomoj = this.ojActive.$key;
-        newAction.titre = titre;
-        newAction.type = type;
-        newAction.annee = annee;
-        newAction.theme = theme;
-        newAction.pubcib = pubcib;
-        newAction.freq = freq;
-        newAction.duree = duree;
-        /*newAction.temporaire = temporaire;
-        newAction.du = du;
-        newAction.au = au;*/
-        console.log(newAction);
-        this.actions.push(newAction);
-        console.log("hellodsfd/ndfsdf/ndfsdfsdf./ndfsdfs");
-        /*
-        newAction.$key = '32'
-        newAction.nomoj = this.ojActive.$key;
-        newAction.titre = titre;
-        newAction.type = type;
-        newAction.theme = theme;
-        newAction.pubcib = pubcib;
-        newAction.freq = freq;
-        newAction.duree = duree;
-        newAction.temporaire = temporaire;
-        newAction.du = du;
-        newAction.au = au;
-
-
-        console.log(newAction);
-        this.changeActionsState('show');*/
+        });
+        this.actionActive.$key = '32';
+        this.actionActive.nomoj = this.ojActive.$key;
+        this.actionActive.titre = titre;
+        this.actionActive.type = type;
+        this.actionActive.annee = annee;
+        this.actionActive.theme = theme;
+        this.actionActive.pubcib = pubcib;
+        this.actionActive.freq = freq;
+        this.actionActive.duree = duree;
+        this.actionActive.du = du;
+        this.actionActive.au = au;
+        console.log(this.actionActive);
+        var l = this.actions.length;
+        this.actions.push(this.actionActive);
+        this.actionActive = this.actions[l];
+        this.changeActionsState('show');
+    };
+    DatalogueComponent.prototype.addMaterielUtile = function (titre, categorie, type, location, photo, remarque) {
+        this.setMaterielActif({
+            $key: '',
+            nomoj: '',
+            titre: '',
+            categorie: '',
+            type: '',
+            location: '',
+            photo: '',
+            remarque: ''
+        });
+        this.materielActif.$key = '23';
+        this.materielActif.nomoj = this.ojActive.$key;
+        this.materielActif.titre = titre;
+        this.materielActif.categorie = categorie;
+        this.materielActif.type = type;
+        this.materielActif.location = location;
+        this.materielActif.photo = photo;
+        this.materielActif.remarque = remarque;
+        var l = this.materielUtile.length;
+        this.materielUtile.push(this.materielActif);
+        this.materielActif = this.materielUtile[l];
+        this.changeMatUtState('show');
     };
     // DELETE
     DatalogueComponent.prototype.deleteOj = function (oj) {
@@ -209,6 +233,23 @@ var DatalogueComponent = (function () {
         if (hit)
             this.changeActionsState('default');
     };
+    DatalogueComponent.prototype.deleteMatUt = function (matut) {
+        var newMatuts = [];
+        var hit = false;
+        for (var i = 0; i < this.materielUtile.length; i++) {
+            if (this.materielUtile[i].$key == matut.$key) {
+                if (this.materielActif.$key == matut.$key) {
+                    hit = true;
+                }
+            }
+            else {
+                newMatuts.push(this.materielUtile[i]);
+            }
+        }
+        this.materielUtile = newMatuts;
+        if (hit)
+            this.changeMatUtState('default');
+    };
     /*
         Boutons
     */
@@ -243,12 +284,28 @@ var DatalogueComponent = (function () {
     DatalogueComponent.prototype.btnEditAction = function () {
         this.changeActionsState('edit');
     };
-    DatalogueComponent.prototype.btnSaveAction = function () {
-        this.changeActionsState('show');
-    };
     DatalogueComponent.prototype.btnSelectAction = function (action) {
         this.actionActive = action;
         this.changeActionsState('show');
+    };
+    DatalogueComponent.prototype.btnAddMatUt = function () {
+        this.setMaterielActif({
+            $key: '',
+            nomoj: '',
+            titre: '',
+            categorie: '',
+            type: '',
+            location: '',
+            remarque: ''
+        });
+        this.changeMatUtState('new');
+    };
+    DatalogueComponent.prototype.btnEditMatut = function () {
+        this.changeMatUtState('edit');
+    };
+    DatalogueComponent.prototype.btnSelectMatUt = function (matut) {
+        this.materielActif = matut;
+        this.changeMatUtState('show');
     };
     // maintenance
     DatalogueComponent.prototype.reset = function () {
@@ -417,16 +474,36 @@ var DatalogueComponent = (function () {
             temporaire: false,
             dernieremodifpar: ''
         });
+        this.setMaterielUtile([{
+                $key: '',
+                nomoj: '',
+                titre: '',
+                categorie: '',
+                type: '',
+                location: '',
+                photo: '',
+                remarque: ''
+            }]);
+        this.setMaterielActif({
+            $key: '',
+            nomoj: '',
+            titre: '',
+            categorie: '',
+            type: '',
+            location: '',
+            photo: '',
+            remarque: ''
+        });
     };
-    DatalogueComponent = __decorate([
-        core_1.Component({
-            moduleId: module.id,
-            selector: 'datalogue',
-            templateUrl: "datalogue.component.html"
-        }), 
-        __metadata('design:paramtypes', [])
-    ], DatalogueComponent);
     return DatalogueComponent;
 }());
+DatalogueComponent = __decorate([
+    core_1.Component({
+        moduleId: module.id,
+        selector: 'datalogue',
+        templateUrl: "datalogue.component.html"
+    }),
+    __metadata("design:paramtypes", [])
+], DatalogueComponent);
 exports.DatalogueComponent = DatalogueComponent;
 //# sourceMappingURL=datalogue.component.js.map

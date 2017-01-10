@@ -23,6 +23,7 @@ export class DatalogueComponent
 	private institutionState: string;
 	private equipeState: string;
 	private actionsState: string;
+	private matutState: string;
 
 	hideInstitution = false;
 	hideEquipe = true;
@@ -51,7 +52,7 @@ export class DatalogueComponent
 	equipe: Personnel[] = null;
 	actions: Action[] = null;
 	actionActive: Action = null;
-	materielutile: MaterielUtile[] = null;
+	materielUtile: MaterielUtile[] = null;
 	materielActif: MaterielUtile = null;
 	productions: Production[] = null;
 	productionActive: Production = null;
@@ -65,9 +66,14 @@ export class DatalogueComponent
 	constructor()
 	{
 		this.appState = 'datalogue';
-		this.dataState = 'actions';
+		this.dataState = 'matut';
 		this.institutionState = 'default';
 		this.actionsState = 'default';
+
+		this.listeOj = [];
+		this.equipe = [];
+		this.actions = [];
+		this.materielUtile = [];
 
 		//bouton
 
@@ -98,6 +104,11 @@ export class DatalogueComponent
 	changeActionsState(state:string)
 	{
 		this.actionsState = state;
+	}
+
+	changeMatUtState(state: string)
+	{
+		this.matutState = state;
 	}
 
 	// SET
@@ -146,12 +157,26 @@ export class DatalogueComponent
 		this.actionActive = action;
 	}
 
+	setMaterielUtile(matut: MaterielUtile[])
+	{
+		this.materielUtile = matut;
+	}
+
+	setMaterielActif(matut: MaterielUtile)
+	{
+		this.materielActif = matut;
+	}
+
 	// UPDATE
 
 	updAction()
 	{
+		this.changeActionsState('show');
+	}
 
-		this.changeActionsState('default');
+	updMateriel()
+	{
+		this.changeMatUtState('default');
 	}
 
 	// ADD
@@ -188,10 +213,9 @@ export class DatalogueComponent
 		this.btnAddEq();
 	}
 	//, annee:string, theme:string, pubcib:string, freq:string, duree:string, temporaire:boolean, du:string, au:string
-	addAction(titre:string, type:string, annee:string, theme:string, pubcib:string, freq:string, duree:string, du:string='', au:string='')	
+	addAction(titre:string, type:string, annee:string, theme:string, pubcib:string, freq:string, duree:string,temporaire:string, du:string='', au:string='')	
 	{
-		console.log("hellodsfd/ndfsdf/ndfsdfsdf./ndfsdfs");
-		var newAction: Action = {
+		this.setActionActive({
 			$key: '',
 			nomoj: '',
 			annee: '',
@@ -206,43 +230,58 @@ export class DatalogueComponent
 			au: '',
 			temporaire: false,
 			dernieremodifpar: ''
-		};
+		});
 
-		newAction.$key = '32';
-		newAction.nomoj = this.ojActive.$key;
-		newAction.titre = titre;
-		newAction.type = type;
-		newAction.annee = annee;
-		newAction.theme = theme;
-		newAction.pubcib = pubcib;
-		newAction.freq = freq;
-		newAction.duree = duree;
-		/*newAction.temporaire = temporaire;
-		newAction.du = du;
-		newAction.au = au;*/
+		this.actionActive.$key = '32';
+		this.actionActive.nomoj = this.ojActive.$key;
+		this.actionActive.titre = titre;
+		this.actionActive.type = type;
+		this.actionActive.annee = annee;
+		this.actionActive.theme = theme;
+		this.actionActive.pubcib = pubcib;
+		this.actionActive.freq = freq;
+		this.actionActive.duree = duree;
+		this.actionActive.du = du;
+		this.actionActive.au = au;
 
-		console.log(newAction);
+		console.log(this.actionActive);
+		var l = this.actions.length;
+		this.actions.push(this.actionActive);
+		this.actionActive = this.actions[l];
 
-		this.actions.push(newAction);
-
-		console.log("hellodsfd/ndfsdf/ndfsdfsdf./ndfsdfs");
-		/*
-		newAction.$key = '32'
-		newAction.nomoj = this.ojActive.$key;
-		newAction.titre = titre;
-		newAction.type = type;
-		newAction.theme = theme;
-		newAction.pubcib = pubcib;
-		newAction.freq = freq;
-		newAction.duree = duree;
-		newAction.temporaire = temporaire;
-		newAction.du = du;
-		newAction.au = au;
-
-
-		console.log(newAction);
-		this.changeActionsState('show');*/
+		this.changeActionsState('show');
 	}
+
+	addMaterielUtile(titre:string, categorie:string, type:string, location:string, photo:string, remarque:string)
+	{
+		this.setMaterielActif(
+		{
+			$key: '',
+			nomoj: '',
+			titre: '',
+			categorie: '',
+			type: '',
+			location: '',
+			photo: '',
+			remarque: ''
+		});
+
+		this.materielActif.$key = '23';
+		this.materielActif.nomoj = this.ojActive.$key;
+		this.materielActif.titre = titre;
+		this.materielActif.categorie = categorie;
+		this.materielActif.type = type;
+		this.materielActif.location = location;
+		this.materielActif.photo = photo;
+		this.materielActif.remarque = remarque;
+
+		var l = this.materielUtile.length;
+		this.materielUtile.push(this.materielActif);
+		this.materielActif = this.materielUtile[l];
+
+		this.changeMatUtState('show');
+	}
+
 
 	// DELETE
 	deleteOj(oj:Oj)
@@ -306,6 +345,29 @@ export class DatalogueComponent
 		if(hit) this.changeActionsState('default'); 
 	}
 
+	deleteMatUt(matut: MaterielUtile)
+	{
+		var newMatuts: MaterielUtile[] = [];
+		var hit = false;
+
+		for(var i=0;i<this.materielUtile.length;i++)
+		{
+			if(this.materielUtile[i].$key == matut.$key)
+			{
+				if(this.materielActif.$key == matut.$key)
+				{
+					hit=true;
+				}
+			} else
+			{
+				newMatuts.push(this.materielUtile[i]);
+			}
+		}
+
+		this.materielUtile = newMatuts;
+		if(hit) this.changeMatUtState('default');
+	}
+
 	/*
 		Boutons
 	*/
@@ -351,10 +413,6 @@ export class DatalogueComponent
 		this.changeActionsState('edit');
 	}
 
-	btnSaveAction()
-	{
-		this.changeActionsState('show');
-	}
 	btnSelectAction(action: Action)
 	{
 		this.actionActive= action;
@@ -362,6 +420,32 @@ export class DatalogueComponent
 		this.changeActionsState('show');
 	}
 
+
+	btnAddMatUt()
+	{
+		this.setMaterielActif(
+		{
+			$key: '',
+			nomoj: '',
+			titre: '',
+			categorie: '',
+			type: '',
+			location: '',
+			remarque: ''
+		});
+		this.changeMatUtState('new');
+	}
+
+	btnEditMatut()
+	{
+		this.changeMatUtState('edit');
+	}
+
+	btnSelectMatUt(matut: MaterielUtile)
+	{
+		this.materielActif = matut;
+		this.changeMatUtState('show');
+	}
 
 	// maintenance
 	reset()
@@ -539,6 +623,30 @@ export class DatalogueComponent
 			temporaire: false,
 			dernieremodifpar: ''
 		});
+
+		this.setMaterielUtile(
+		[{
+			$key: '',
+			nomoj: '',
+			titre: '',
+			categorie: '',
+			type: '',
+			location: '',
+			photo: '',
+			remarque: ''
+		}]);
+
+		this.setMaterielActif(
+		{
+			$key: '',
+			nomoj: '',
+			titre: '',
+			categorie: '',
+			type: '',
+			location: '',
+			photo: '',
+			remarque: ''
+		})
 	}
 
 }

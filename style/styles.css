@@ -34,3 +34,8 @@ h1 {
 {
   text-align: right;
 }
+
+.hidethis
+{
+  display:none;
+}

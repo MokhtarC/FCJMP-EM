@@ -577,21 +577,16 @@ DATALOGUE
 												  <span class="input-group-addon" id="basic-addon1">Durée</span>
 												  <input type="text" class="form-control textright" placeholder="Durée de l'activité" aria-describedby="basic-addon1" name="duree" #duree>
 												</div>
-												<div class="input-group">
-												  <span class="input-group-addon" id="basic-addon1">Temporaire</span>
-												  <input type="checkbox" class="form-control textright" placeholder="temporaire" aria-describedby="basic-addon1" name="temporaire" #temporaire>
-												</div>
-												<div *ngIf="actionActive.temporaire" class="input-group">
-												  <span class="input-group-addon" id="basic-addon1">Du</span>
+												<div  class="input-group">
+												  <span class="input-group-addon" id="basic-addon1">Du(optionnel)</span>
 												  <input type="text" class="form-control textright" placeholder="A partir du" aria-describedby="basic-addon1" name="du" #du>
 												</div>
-												<div *ngIf="actionActive.temporaire" class="input-group">
-												  <span class="input-group-addon" id="basic-addon1">Au</span>
-												  <input type="text" class="form-control textright" placeholder="affiliation" aria-describedby="basic-addon1" name="au" #au>
+												<div  class="input-group">
+												  <span class="input-group-addon" id="basic-addon1">Au(optionnel)</span>
+												  <input type="text" class="form-control textright" placeholder="Jusqu'au" aria-describedby="basic-addon1" name="au" #au>
 												</div>
 											</div>
 												<input type="submit" class="btn btn-primary" value="Ajouter"> 
-												<!--<button type="submit" class="btn btn-primary btn-xs">Ajouter</button> -->
 										</div>
 									</form>
 								</div>
@@ -649,7 +644,54 @@ DATALOGUE
 						Materiel Utile
 					</div>
 					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="btn-group btn-group-justified" role="group" aria-label="Justified button group">
+								  <div class="btn-group" role="group">
+								    <button (click)="btnAddMatUt()" type="button" class="btn btn-success">Ajouter du materiel</button>
+								  </div>
+								</div>
+								<br>
+							</div>
+						</div>
+						<div class="row">
 
+							<!-- SHOW -->
+							<div class="col-md-2 ">
+								<img class="thumbnail logo" src="{{materielActif.photo}}"/>
+							</div>
+							<div class="col-md-4 ">
+								<div class="input-group">
+									<span class="input-group-addon">Nom</span>
+									<input type="text" class="form-control textright" disabled="disabled" [(ngModel)]="materielActif.titre">
+								</div>
+								<div class="input-group">
+									<span class="input-group-addon">Type</span>
+									<input type="text" class="form-control textright" disabled="disabled" [(ngModel)]="materielActif.type">
+								</div>
+								<div class="input-group">
+									<span class="input-group-addon">Catégorie</span>
+									<input type="text" class="form-control textright" disabled="disabled" [(ngModel)]="materielActif.categorie">
+								</div>
+								<div class="input-group">
+									<span class="input-group-addon">Location</span>
+									<input type="text" class="form-control textright" disabled="disabled" [(ngModel)]="materielActif.location">
+								</div>
+							</div>
+							<div class="col-md-4 ">
+								<div class="input-group">
+									<span class="input-group-addon">Remarque</span>
+									<textarea type="text" class="form-control textright" disabled="disabled" [(ngModel)]="materielActif.remarque"  rows="5"></textarea>
+								</div>
+							</div>
+
+
+							<!-- EDIT -->
+
+							<!-- NEW -->
+
+
+						</div>
 					</div>
 				</div>
 			</div>
