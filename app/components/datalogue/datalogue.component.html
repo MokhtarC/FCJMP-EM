@@ -130,10 +130,10 @@ DATALOGUE
 <div *ngIf="appState=='datalogue'" class="container well">
 	<header *ngIf="ojActive" class="oj-header">
 		<div class="row">
-			<div class="col-md-2 well">
+			<div class="col-md-3 ">
 				<img class="thumbnail logo" src="{{institution.photo}}"/>
 			</div>
-			<div class="col-md-3 well">
+			<div class="col-md-3 ">
 				<h3>{{ojActive.nom}}</h3>
 				<p>{{institution.type}}</p>
 				<p>{{institution.cat}}</p>
@@ -148,11 +148,11 @@ DATALOGUE
 					<button (click)="changeDataState('equipe')" class="btn btn-secondary">Equipe</button>
 					<button (click)="changeDataState('actions')" class="btn btn-secondary">Actions</button>
 					<button (click)="changeDataState('matut')" class="btn btn-secondary">Matériel Utile</button>
-					<button (click)="changeDataState('productions')" class="btn btn-secondary">Productions</button>
+					<!-- <button (click)="changeDataState('productions')" class="btn btn-secondary">Productions</button>
 					<button (click)="changeDataState('docadm')" class="btn btn-secondary">Documents</button>
 					<button (click)="changeDataState('environnement')" class="btn btn-secondary">Environnement</button>
 					<button (click)="changeDataState('ca')" class="btn btn-secondary">CA</button>
-					<button (click)="changeDataState('ag')" class="btn btn-secondary">AG</button>
+					<button (click)="changeDataState('ag')" class="btn btn-secondary">AG</button> -->
 				</div>
 			</div>
 		</div>
@@ -215,8 +215,11 @@ DATALOGUE
 								</div>
 							</div>
 						</div>
-						<div class="row">
-							
+						<div class="row">	
+							<div class="col-md-12 ">							
+								<span class="input-group-addon">Description</span>
+								<textarea type="text" class="form-control" rows="10" placeholder="Remarque sur l'objet" name="description" [(ngModel)]="institution.description" #description></textarea>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -241,109 +244,229 @@ DATALOGUE
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-2 ">
-								<img class="thumbnail logo" src="{{employeActif.photo}}"/>
-								<div class="btn-group btn-group-justified" role="group" aria-label="Justified button group">
-								  <div class="btn-group" role="group">
-								    <button *ngIf="addEqBtn" (click)="btnUpdEq()" type="button" class="btn btn-primary">Sauvegarder</button>
-								  </div>
+
+							<!-- SHOW -->							
+							<div *ngIf="equipeState=='show'" class="panel panel-default">
+								<div class="panel-heading">
+								{{employeActif.pnom}} {{employeActif.nom}}
+								</div>
+								<div class="panel-body">
+									<div class="col-md-1 ">
+										<img class="thumbnail photo" src="{{employeActif.photo}}"/>
+										<div class="btn-group btn-group-justified" role="group" aria-label="Justified button group">
+										  <div class="btn-group" role="group">
+										    
+										  </div>
+										</div>
+									</div>
+									<div class="col-md-3 ">
+										<div class="input-group">
+										  <span class="input-group-addon" id="basic-addon1">Sexe</span>
+										  <input type="text" class="form-control textright" placeholder="Nom de l'Asbl" aria-describedby="basic-addon1" [(ngModel)]="employeActif.sexe" name="nomoj" #sexe>
+										</div>
+										<div class="input-group">
+										  <span class="input-group-addon" id="basic-addon1">Prénom</span>
+										  <input type="text" class="form-control textright" placeholder="Prénom" aria-describedby="basic-addon1" [(ngModel)]="employeActif.pnom" name="pnom" #pnom>
+										</div>
+										<div class="input-group">
+										  <span class="input-group-addon" id="basic-addon1">Nom</span>
+										  <input type="text" class="form-control textright" placeholder="Niveau d'agrément" aria-describedby="basic-addon1" [(ngModel)]="employeActif.nom" name="nom" #nom>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="input-group">
+										  <span class="input-group-addon" id="basic-addon1">Téléphone</span>
+										  <input type="text" class="form-control textright" placeholder="Numéro de téléphone" aria-describedby="basic-addon1" [(ngModel)]="employeActif.tel" name="tel" #tel>
+										</div>
+										<div class="input-group">
+										  <span class="input-group-addon" id="basic-addon1">E-mail</span>
+										  <input type="text" class="form-control textright" placeholder="Adresse E-mail" aria-describedby="basic-addon1" [(ngModel)]="employeActif.email" name="email" #email>
+										</div>
+										<div class="input-group">
+										  <span class="input-group-addon" id="basic-addon1">Rôle</span>
+										  <input type="text" class="form-control textright" placeholder="Role" aria-describedby="basic-addon1" [(ngModel)]="employeActif.role" name="role" #role>
+										</div>
+									</div>
+									<div class="col-md-4 ">
+										<div class="input-group">
+										  <span class="input-group-addon" id="basic-addon1">Date d'engagement</span>
+										  <input type="text" class="form-control textright" placeholder="Date d'engagement" aria-describedby="basic-addon1" [(ngModel)]="employeActif.engagele" name="engagele" #engagele>
+										</div>
+										<div class="input-group">
+										  <span class="input-group-addon" id="basic-addon1">Qualification</span>
+										  <input type="text" class="form-control textright" placeholder="Niveau de Qualification" aria-describedby="basic-addon1" [(ngModel)]="employeActif.qualif" name="qualif" #qualif>
+										</div>
+										<div class="input-group">
+										  <span class="input-group-addon" id="basic-addon1">Date de qualification</span>
+										  <input type="text" class="form-control textright" placeholder="Date de qualification" aria-describedby="basic-addon1" [(ngModel)]="employeActif.datequalif" name="datequalif" #datequalif>
+										</div>
+										<div class="input-group">
+										  <span class="input-group-addon" id="basic-addon1">Contrat</span>
+										  <input type="text" class="form-control textright" placeholder="Type de contrat" aria-describedby="basic-addon1" [(ngModel)]="employeActif.contrat" name="contrat" #contrat>
+										</div>
+										<div class="input-group">
+										  <span class="input-group-addon" id="basic-addon1">ETP</span>
+										  <input type="text" class="form-control textright" placeholder="Estimation temps plein" aria-describedby="basic-addon1" [(ngModel)]="employeActif.etp" name="etp" #etp>
+										</div>
+									</div>
+									<div class="col-md-1">
+										<button (click)="btnEditEmploye()" type="button" class="btn btn-primary btn-xs">Éditer</button>
+									</div>
 								</div>
 							</div>
-							<div class="col-md-3 ">
-								<div class="input-group">
-								  <span class="input-group-addon" id="basic-addon1">Sexe</span>
-								  <input type="text" class="form-control textright" placeholder="Nom de l'Asbl" aria-describedby="basic-addon1" [(ngModel)]="employeActif.sexe" name="nomoj" #sexe>
+
+
+							<!-- EDIT -->
+							<div *ngIf="equipeState=='edit'" class="panel panel-default">
+								<div class="panel-heading">
+									Editer
 								</div>
-								<div class="input-group">
-								  <span class="input-group-addon" id="basic-addon1">Prénom</span>
-								  <input type="text" class="form-control textright" placeholder="Prénom" aria-describedby="basic-addon1" [(ngModel)]="employeActif.pnom" name="pnom" #pnom>
-								</div>
-								<div class="input-group">
-								  <span class="input-group-addon" id="basic-addon1">Nom</span>
-								  <input type="text" class="form-control textright" placeholder="Niveau d'agrément" aria-describedby="basic-addon1" [(ngModel)]="employeActif.nom" name="nom" #nom>
+								<div class="panel-body">
+									<div class="col-md-1 ">
+										<img class="thumbnail photo" src="{{employeActif.photo}}"/>
+										<div class="btn-group btn-group-justified" role="group" aria-label="Justified button group">
+										  <div class="btn-group" role="group">
+										    
+										  </div>
+										</div>
+									</div>
+									<div class="col-md-3 ">
+										<div class="input-group">
+										  <span class="input-group-addon" id="basic-addon1">Sexe</span>
+										  <input type="text" class="form-control textright" placeholder="Nom de l'Asbl" aria-describedby="basic-addon1" [(ngModel)]="employeActif.sexe" name="nomoj" #sexe>
+										</div>
+										<div class="input-group">
+										  <span class="input-group-addon" id="basic-addon1">Prénom</span>
+										  <input type="text" class="form-control textright" placeholder="Prénom" aria-describedby="basic-addon1" [(ngModel)]="employeActif.pnom" name="pnom" #pnom>
+										</div>
+										<div class="input-group">
+										  <span class="input-group-addon" id="basic-addon1">Nom</span>
+										  <input type="text" class="form-control textright" placeholder="Niveau d'agrément" aria-describedby="basic-addon1" [(ngModel)]="employeActif.nom" name="nom" #nom>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="input-group">
+										  <span class="input-group-addon" id="basic-addon1">Téléphone</span>
+										  <input type="text" class="form-control textright" placeholder="Numéro de téléphone" aria-describedby="basic-addon1" [(ngModel)]="employeActif.tel" name="tel" #tel>
+										</div>
+										<div class="input-group">
+										  <span class="input-group-addon" id="basic-addon1">E-mail</span>
+										  <input type="text" class="form-control textright" placeholder="Adresse E-mail" aria-describedby="basic-addon1" [(ngModel)]="employeActif.email" name="email" #email>
+										</div>
+										<div class="input-group">
+										  <span class="input-group-addon" id="basic-addon1">Rôle</span>
+										  <input type="text" class="form-control textright" placeholder="Role" aria-describedby="basic-addon1" [(ngModel)]="employeActif.role" name="role" #role>
+										</div>
+									</div>
+									<div class="col-md-4 ">
+										<div class="input-group">
+										  <span class="input-group-addon" id="basic-addon1">Date d'engagement</span>
+										  <input type="text" class="form-control textright" placeholder="Date d'engagement" aria-describedby="basic-addon1" [(ngModel)]="employeActif.engagele" name="engagele" #engagele>
+										</div>
+										<div class="input-group">
+										  <span class="input-group-addon" id="basic-addon1">Qualification</span>
+										  <input type="text" class="form-control textright" placeholder="Niveau de Qualification" aria-describedby="basic-addon1" [(ngModel)]="employeActif.qualif" name="qualif" #qualif>
+										</div>
+										<div class="input-group">
+										  <span class="input-group-addon" id="basic-addon1">Date de qualification</span>
+										  <input type="text" class="form-control textright" placeholder="Date de qualification" aria-describedby="basic-addon1" [(ngModel)]="employeActif.datequalif" name="datequalif" #datequalif>
+										</div>
+										<div class="input-group">
+										  <span class="input-group-addon" id="basic-addon1">Contrat</span>
+										  <input type="text" class="form-control textright" placeholder="Type de contrat" aria-describedby="basic-addon1" [(ngModel)]="employeActif.contrat" name="contrat" #contrat>
+										</div>
+										<div class="input-group">
+										  <span class="input-group-addon" id="basic-addon1">ETP</span>
+										  <input type="text" class="form-control textright" placeholder="Estimation temps plein" aria-describedby="basic-addon1" [(ngModel)]="employeActif.etp" name="etp" #etp>
+										</div>
+									</div>
+									<div class="col-md-1">
+										<button (click)="updEquipe()" type="button" class="btn btn-primary btn-xs">Sauvegarder</button>
+									</div>
 								</div>
 							</div>
-							<div class="col-md-3">
-								<div class="input-group">
-								  <span class="input-group-addon" id="basic-addon1">Téléphone</span>
-								  <input type="text" class="form-control textright" placeholder="Numéro de téléphone" aria-describedby="basic-addon1" [(ngModel)]="employeActif.tel" name="tel" #tel>
+
+							<!-- NEW -->
+							<div *ngIf="equipeState=='new'" class="panel panel-default">
+								<div class="panel-heading">
+								Ajouter
 								</div>
-								<div class="input-group">
-								  <span class="input-group-addon" id="basic-addon1">E-mail</span>
-								  <input type="text" class="form-control textright" placeholder="Adresse E-mail" aria-describedby="basic-addon1" [(ngModel)]="employeActif.email" name="email" #email>
-								</div>
-								<div class="input-group">
-								  <span class="input-group-addon" id="basic-addon1">Rôle</span>
-								  <input type="text" class="form-control textright" placeholder="Role" aria-describedby="basic-addon1" [(ngModel)]="employeActif.role" name="role" #role>
-								</div>
-							</div>
-							<div class="col-md-3 ">
-								<div class="input-group">
-								  <span class="input-group-addon" id="basic-addon1">Date d'engagement</span>
-								  <input type="text" class="form-control textright" placeholder="Date d'engagement" aria-describedby="basic-addon1" [(ngModel)]="employeActif.engagele" name="engagele" #engagele>
-								</div>
-								<div class="input-group">
-								  <span class="input-group-addon" id="basic-addon1">Qualification</span>
-								  <input type="text" class="form-control textright" placeholder="Niveau de Qualification" aria-describedby="basic-addon1" [(ngModel)]="employeActif.qualif" name="qualif" #qualif>
-								</div>
-								<div class="input-group">
-								  <span class="input-group-addon" id="basic-addon1">Date de qualification</span>
-								  <input type="text" class="form-control textright" placeholder="Date de qualification" aria-describedby="basic-addon1" [(ngModel)]="employeActif.datequalif" name="datequalif" #datequalif>
-								</div>
-								<div class="input-group">
-								  <span class="input-group-addon" id="basic-addon1">Contrat</span>
-								  <input type="text" class="form-control textright" placeholder="Type de contrat" aria-describedby="basic-addon1" [(ngModel)]="employeActif.contrat" name="contrat" #contrat>
-								</div>
-								<div class="input-group">
-								  <span class="input-group-addon" id="basic-addon1">ETP</span>
-								  <input type="text" class="form-control textright" placeholder="Estimation temps plein" aria-describedby="basic-addon1" [(ngModel)]="employeActif.etp" name="etp" #etp>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<!-- AJOUT PERSONNE -->
-							<div *ngIf="!addEqBtn" class="row">
-								<div class="col-md-4">
-								<h3>Ajouter une personne</h3>
+								<div class="panel-body">
 									<form (submit)="addEq(
 									sexe.value,
 									pnom.value,
 									nom.value,
 									tel.value,
 									email.value,
-									role.value
+									role.value,
+									engagele.value,
+									qualif.value,
+									datequalif.value,
+									contrat.value,
+									etp.value
 									)">
+										<div class="col-md-1 ">
+											<img class="thumbnail photo" src=""/>
+											<div class="btn-group btn-group-justified" role="group" aria-label="Justified button group">
+											  <div class="btn-group" role="group">
+											    
+											  </div>
+											</div>
+										</div>
+										<div class="col-md-3 ">
 											<div class="input-group">
 											  <span class="input-group-addon" id="basic-addon1">Sexe</span>
-											  <input type="text" class="form-control textright" placeholder="Sexe" aria-describedby="basic-addon1" #sexe>
+											  <input type="text" class="form-control textright" placeholder="Nom de l'Asbl" aria-describedby="basic-addon1" name="nomoj" #sexe>
 											</div>
 											<div class="input-group">
 											  <span class="input-group-addon" id="basic-addon1">Prénom</span>
-											  <input type="text" class="form-control textright" placeholder="Prénom" aria-describedby="basic-addon1" #pnom>
+											  <input type="text" class="form-control textright" placeholder="Prénom" aria-describedby="basic-addon1" name="pnom" #pnom>
 											</div>
 											<div class="input-group">
 											  <span class="input-group-addon" id="basic-addon1">Nom</span>
-											  <input type="text" class="form-control textright" placeholder="Nom" aria-describedby="basic-addon1" #nom>
-											</div>											
+											  <input type="text" class="form-control textright" placeholder="Niveau d'agrément" aria-describedby="basic-addon1" name="nom" #nom>
+											</div>
+										</div>
+										<div class="col-md-3">
 											<div class="input-group">
 											  <span class="input-group-addon" id="basic-addon1">Téléphone</span>
-											  <input type="text" class="form-control textright" placeholder="Numéro de téléphone" aria-describedby="basic-addon1" #tel>
+											  <input type="text" class="form-control textright" placeholder="Numéro de téléphone" aria-describedby="basic-addon1" name="tel" #tel>
 											</div>
 											<div class="input-group">
 											  <span class="input-group-addon" id="basic-addon1">E-mail</span>
-											  <input type="text" class="form-control textright" placeholder="Adresse E-mail" aria-describedby="basic-addon1" #email>
+											  <input type="text" class="form-control textright" placeholder="Adresse E-mail" aria-describedby="basic-addon1" name="email" #email>
 											</div>
 											<div class="input-group">
 											  <span class="input-group-addon" id="basic-addon1">Rôle</span>
-											  <input type="text" class="form-control textright" placeholder="Rôle" aria-describedby="basic-addon1" #role>
+											  <input type="text" class="form-control textright" placeholder="Role" aria-describedby="basic-addon1" name="role" #role>
 											</div>
-									        <div class="row">
-									          <div class="col-md-12">
-									            <input type="button" class="btn btn-primary" value="Ajouter">  
-									          </div>  
-									        </div>			
+										</div>
+										<div class="col-md-4 ">
+											<div class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">Date d'engagement</span>
+											  <input type="text" class="form-control textright" placeholder="Date d'engagement" aria-describedby="basic-addon1" name="engagele" #engagele>
+											</div>
+											<div class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">Qualification</span>
+											  <input type="text" class="form-control textright" placeholder="Niveau de Qualification" aria-describedby="basic-addon1" name="qualif" #qualif>
+											</div>
+											<div class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">Date de qualification</span>
+											  <input type="text" class="form-control textright" placeholder="Date de qualification" aria-describedby="basic-addon1" name="datequalif" #datequalif>
+											</div>
+											<div class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">Contrat</span>
+											  <input type="text" class="form-control textright" placeholder="Type de contrat" aria-describedby="basic-addon1" name="contrat" #contrat>
+											</div>
+											<div class="input-group">
+											  <span class="input-group-addon" id="basic-addon1">ETP</span>
+											  <input type="text" class="form-control textright" placeholder="Estimation temps plein" aria-describedby="basic-addon1" name="etp" #etp>
+											</div>
+										</div>
+										<div class="col-md-1">
+											<input type="button" class="btn btn-primary btn-xs" value="Ajouter"> 
+										</div>
 									</form>
-
 								</div>
 							</div>
 						</div>
@@ -404,7 +527,7 @@ DATALOGUE
 						</div>
 						<div class="row">
 
-							<!-- SHOW -->
+							<!-- EDIT -->
 							<div *ngIf="actionsState=='show'" class="panel panel-default well">
 								<div class="panel-heading">
 									{{actionActive.titre}}
@@ -412,7 +535,7 @@ DATALOGUE
 								<div class="panel-body">
 									<div class="row">
 										<div class="col-md-2 ">
-											<img class="thumbnail logo" src="{{actionActive.logo}}"/>
+											<img class="thumbnail photo" src="{{actionActive.logo}}"/>
 										</div>
 										<div class="col-md-4 ">
 											<div class="input-group">
@@ -612,18 +735,18 @@ DATALOGUE
 							<table class="table table-striped table-hover ">
 								<thead>
 									<tr>
+										<th>Année</th>
 										<th>Titre</th>
 										<th>Type</th>
 										<th>Thème</th>
-										<th>Année</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr *ngFor="let action of actions" (click)="btnSelectAction(action)">
+										<td>{{action.annee}}</td>
 										<td>{{action.titre}}</td>
 										<td>{{action.type}}</td>
 										<td>{{action.theme}}</td>
-										<td>{{action.annee}}</td>
 										<td>
 											<button (click)="deleteAction(action)" class="btn btn-danger btn-xs">X</button>
 										</td>
@@ -648,7 +771,7 @@ DATALOGUE
 							<div class="col-md-12">
 								<div class="btn-group btn-group-justified" role="group" aria-label="Justified button group">
 								  <div class="btn-group" role="group">
-								    <button (click)="btnAddMatUt()" type="button" class="btn btn-success">Ajouter du materiel</button>
+								    <button (click)="btnAddMatUt()" type="button" class="btn btn-primary">Ajouter du materiel</button>
 								  </div>
 								</div>
 								<br>
@@ -657,40 +780,163 @@ DATALOGUE
 						<div class="row">
 
 							<!-- SHOW -->
-							<div class="col-md-2 ">
-								<img class="thumbnail logo" src="{{materielActif.photo}}"/>
+							<div *ngIf="matutState=='show'" class="panel panel-default">
+								<div class="panel-heading">
+									{{materielActif.titre}}
+								</div>
+								<div class="panel-body">
+									<div class="col-md-2 ">
+										<img class="thumbnail logo" src="{{materielActif.photo}}"/>
+									</div>
+									<div class="col-md-4 ">
+										<div class="input-group">
+											<span class="input-group-addon">Nom</span>
+											<input type="text" class="form-control textright" disabled="disabled" [(ngModel)]="materielActif.titre">
+										</div>
+										<div class="input-group">
+											<span class="input-group-addon">Type</span>
+											<input type="text" class="form-control textright" disabled="disabled" [(ngModel)]="materielActif.type">
+										</div>
+										<div class="input-group">
+											<span class="input-group-addon">Catégorie</span>
+											<input type="text" class="form-control textright" disabled="disabled" [(ngModel)]="materielActif.categorie">
+										</div>
+										<div class="input-group">
+											<span class="input-group-addon">Location</span>
+											<input type="text" class="form-control textright" disabled="disabled" [(ngModel)]="materielActif.location">
+										</div>
+									</div>
+									<div class="col-md-4 ">
+										<div class="input-group">
+											<span class="input-group-addon">Remarque</span>
+											<textarea type="text" class="form-control textright" disabled="disabled" [(ngModel)]="materielActif.remarque"  rows="6"></textarea>
+										</div>
+									</div>
+									<div class="col-md-2 ">
+										<button (click)="btnEditMatut()" type="button" class="btn btn-success">Editer</button>					
+										<button (click)="changeMatUtState('default')" type="button" class="btn btn-danger">Fermer</button>
+									</div>
+								</div>	
 							</div>
-							<div class="col-md-4 ">
-								<div class="input-group">
-									<span class="input-group-addon">Nom</span>
-									<input type="text" class="form-control textright" disabled="disabled" [(ngModel)]="materielActif.titre">
-								</div>
-								<div class="input-group">
-									<span class="input-group-addon">Type</span>
-									<input type="text" class="form-control textright" disabled="disabled" [(ngModel)]="materielActif.type">
-								</div>
-								<div class="input-group">
-									<span class="input-group-addon">Catégorie</span>
-									<input type="text" class="form-control textright" disabled="disabled" [(ngModel)]="materielActif.categorie">
-								</div>
-								<div class="input-group">
-									<span class="input-group-addon">Location</span>
-									<input type="text" class="form-control textright" disabled="disabled" [(ngModel)]="materielActif.location">
-								</div>
-							</div>
-							<div class="col-md-4 ">
-								<div class="input-group">
-									<span class="input-group-addon">Remarque</span>
-									<textarea type="text" class="form-control textright" disabled="disabled" [(ngModel)]="materielActif.remarque"  rows="5"></textarea>
-								</div>
-							</div>
-
 
 							<!-- EDIT -->
+							<div *ngIf="matutState=='edit'" class="panel panel-default">
+								<div class="panel-heading">
+									Editer
+								</div>
+								<div class="panel-body">
+									<div class="col-md-2 ">
+										<img class="thumbnail logo" src="{{materielActif.photo}}"/>
+										<div class="input-group">
+											<span class="input-group-addon">Source</span>
+											<input type="text" class="form-control textright" placeholder="Url de la photo" [(ngModel)]="materielActif.photo" name="photo" #photo>
+										</div>	
+									</div>
+									<div class="col-md-4 ">
+										<div class="input-group">
+											<span class="input-group-addon">Nom</span>
+											<input type="text" class="form-control textright" [(ngModel)]="materielActif.titre" name="titre" #titre>
+										</div>
+										<div class="input-group">
+											<span class="input-group-addon">Type</span>
+											<input type="text" class="form-control textright" [(ngModel)]="materielActif.type" name="type" #type>
+										</div>
+										<div class="input-group">
+											<span class="input-group-addon">Catégorie</span>
+											<input type="text" class="form-control textright" [(ngModel)]="materielActif.categorie" name="categorie" #categorie>
+										</div>
+										<div class="input-group">
+											<span class="input-group-addon">Location</span>
+											<input type="text" class="form-control textright" [(ngModel)]="materielActif.location" name="loca" #loca>
+										</div>
+									</div>
+									<div class="col-md-4 ">
+										<div class="input-group">
+											<span class="input-group-addon">Remarque</span>
+											<textarea type="text" class="form-control textright" [(ngModel)]="materielActif.remarque"  rows="6" name="remarque" #remarque></textarea>
+										</div>
+									</div>
+									<div class="col-md-2 ">
+										<button (click)="updMateriel()" type="button" class="btn btn-success">Sauvegarder</button>
+										<button (click)="changeMatUtState('default')" type="button" class="btn btn-danger">Fermer</button>
+									</div>
+								</div>
+							</div>
 
 							<!-- NEW -->
+							<div *ngIf="matutState=='new'" class="panel panel-default">
+								<div class="panel-heading">
+									Ajouter
+								</div>
+								<div class="panel-body">
+									<form (submit)="addMaterielUtile(
+											titre.value,
+											type.value,
+											location.value,
+											categorie.value,
+											photo.value,
+											remarque.value)">
+										<div class="col-md-2 ">
+											<img class="thumbnail logo" src="{{materielActif.photo}}"/>	
+											<div class="input-group">
+												<span class="input-group-addon">Source</span>
+												<input type="text" class="form-control textright" placeholder="Url de la photo" name="photo" #photo>
+											</div>											
+										</div>
+										<div class="col-md-4 ">
+											<div class="input-group">
+												<span class="input-group-addon">Nom</span>
+												<input type="text" class="form-control textright" placeholder="Objet pretable" name="titre" #titre>
+											</div>
+											<div class="input-group">
+												<span class="input-group-addon">Type</span>
+												<input type="text" class="form-control textright" placeholder="materiel, salle, etc" name="type" #type>
+											</div>
+											<div class="input-group">
+												<span class="input-group-addon">Catégorie</span>
+												<input type="text" class="form-control textright" placeholder="sport, danse, theatre,..." name="categorie" #categorie>
+											</div>
+											<div class="input-group">
+												<span class="input-group-addon">Location</span>
+												<input type="text" class="form-control textright" placeholder="gratuite ou prix " name="location" #location>
+											</div>
+										</div>
+										<div class="col-md-4 ">
+											<div class="input-group">
+												<span class="input-group-addon">Remarque</span>
+												<textarea type="text" class="form-control textright" rows="6" placeholder="Remarque sur l'objet" name="remarque" #remarque></textarea>
+											</div>
+										</div>
+										<div class="col-md-2 ">
 
+											<input type="submit" class="btn btn-success" value="Ajouter">
 
+											<button (click)="changeMatUtState('default')" type="button" class="btn btn-danger">Annuler</button>
+										</div>
+									</form>
+								</div>
+							</div>
+							<table class="table table-striped table-hover ">
+								<thead>
+									<tr>
+										<th>Nom</th>
+										<th>Categorie</th>
+										<th>Type</th>
+										<th>Location</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let matut of materielUtile" (click)="btnSelectMatUt(matut)">
+										<td>{{matut.titre}}</td>
+										<td>{{matut.categorie}}</td>
+										<td>{{matut.type}}</td>
+										<td>{{matut.loca}}</td>
+										<td>
+											<button (click)="deleteMatUt(matut)" class="btn btn-danger btn-xs">X</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>
@@ -767,7 +1013,4 @@ DATALOGUE
 			</div>
 		</div>
 	</div>
-</div>
-<div class="col-md-10">
-	<editor></editor>
 </div>

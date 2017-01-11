@@ -68,7 +68,9 @@ export class DatalogueComponent
 		this.appState = 'datalogue';
 		this.dataState = 'matut';
 		this.institutionState = 'default';
+		this.equipeState = 'default';
 		this.actionsState = 'default';
+		this.matutState = 'default';
 
 		this.listeOj = [];
 		this.equipe = [];
@@ -81,8 +83,6 @@ export class DatalogueComponent
 		// MAINT
 		
 		this.setDataDefault();
-
-		console.log(this.actionsState);
 
 	}
 
@@ -169,6 +169,11 @@ export class DatalogueComponent
 
 	// UPDATE
 
+	updEquipe()
+	{
+		this.changeEquipeState('show');
+	}
+
 	updAction()
 	{
 		this.changeActionsState('show');
@@ -176,7 +181,7 @@ export class DatalogueComponent
 
 	updMateriel()
 	{
-		this.changeMatUtState('default');
+		this.changeMatUtState('show');
 	}
 
 	// ADD
@@ -197,8 +202,34 @@ export class DatalogueComponent
 		nom: string,
 		tel: string,
 		email: string,
-		role: string)
+		role: string,
+		engagele: string,
+		qualif: string,
+		datequalif: string,
+		contrat: string,
+		etp: string)
 	{
+		console.log('entered');
+		this.employeActif = 
+		{
+			nomoj: '',
+			pnom: '',
+			nom: '',
+			engagele: '',
+			email:'',
+			tel:'',
+			qualif:'',
+			sexe:'',
+			role:'',
+			specificite:[],
+			contrat:'',
+			etp:'',
+			coordo: false,
+			photo: '',
+			datequalif:''
+		};
+		console.log(this.employeActif);
+
 		var newEq:Personnel =
 		{
 			nomoj:this.ojActive.$key,
@@ -207,10 +238,22 @@ export class DatalogueComponent
 			nom:nom,
 			tel:tel,
 			email:email,
-			role:role
-		}
+			role:role,
+			engagele:engagele,
+			qualif:qualif,
+			datequalif:datequalif,
+			contrat:contrat,
+			etp:etp,
+			coordo: false,
+			photo: ''
+		};
+
+		console.log(newEq);
+
+		var l = this.equipe.length;
 		this.equipe.push(newEq);
-		this.btnAddEq();
+		this.employeActif = this.equipe[l];
+		this.changeEquipeState('show');
 	}
 	//, annee:string, theme:string, pubcib:string, freq:string, duree:string, temporaire:boolean, du:string, au:string
 	addAction(titre:string, type:string, annee:string, theme:string, pubcib:string, freq:string, duree:string,temporaire:string, du:string='', au:string='')	
@@ -244,7 +287,6 @@ export class DatalogueComponent
 		this.actionActive.du = du;
 		this.actionActive.au = au;
 
-		console.log(this.actionActive);
 		var l = this.actions.length;
 		this.actions.push(this.actionActive);
 		this.actionActive = this.actions[l];
@@ -252,8 +294,9 @@ export class DatalogueComponent
 		this.changeActionsState('show');
 	}
 
-	addMaterielUtile(titre:string, categorie:string, type:string, location:string, photo:string, remarque:string)
+	addMaterielUtile(titre:string, categorie:string, type:string, loca:string, photo:string, remarque:string)
 	{
+
 		this.setMaterielActif(
 		{
 			$key: '',
@@ -261,7 +304,7 @@ export class DatalogueComponent
 			titre: '',
 			categorie: '',
 			type: '',
-			location: '',
+			loca: '',
 			photo: '',
 			remarque: ''
 		});
@@ -271,7 +314,7 @@ export class DatalogueComponent
 		this.materielActif.titre = titre;
 		this.materielActif.categorie = categorie;
 		this.materielActif.type = type;
-		this.materielActif.location = location;
+		this.materielActif.loca = loca;
 		this.materielActif.photo = photo;
 		this.materielActif.remarque = remarque;
 
@@ -378,9 +421,37 @@ export class DatalogueComponent
 
 	btnAddEq()
 	{
-		this.addEqBtn = !this.addEqBtn;
+		this.setEmployeActif(
+			{
+			nomoj: '',
+			pnom: '',
+			nom: '',
+			engagele: '',
+			email:'',
+			tel:'',
+			qualif:'',
+			sexe:'',
+			role:'',
+			specificite:[],
+			contrat:'',
+			etp:'',
+			coordo: true,
+			photo: '',
+			datequalif:''
+		});
+		this.changeEquipeState('new');
+	}
+	btnEditEmploye()
+	{
+		this.changeEquipeState('edit');
 	}
 
+	btnSelectEmploye(employe: Personnel)
+	{
+		this.employeActif= employe;
+
+		this.changeEquipeState('show');
+	}
 
 	btnActTemp()
 	{
@@ -427,10 +498,11 @@ export class DatalogueComponent
 		{
 			$key: '',
 			nomoj: '',
+			photo: '',
 			titre: '',
 			categorie: '',
 			type: '',
-			location: '',
+			loca: '',
 			remarque: ''
 		});
 		this.changeMatUtState('new');
@@ -590,23 +662,7 @@ export class DatalogueComponent
 				cat: ''
 		});
 		this.setEquipe(
-		[{
-			nomoj: '',
-			pnom: '',
-			nom: '',
-			engagele: '',
-			email:'',
-			tel:'',
-			qualif:'',
-			sexe:'',
-			role:'',
-			specificite:[],
-			contrat:'',
-			etp:'',
-			coordo: true,
-			photo: '',
-			datequalif:''
-		}]);
+		[]);
 		this.setActionActive({
 			$key: '',
 			nomoj: '',
@@ -624,18 +680,6 @@ export class DatalogueComponent
 			dernieremodifpar: ''
 		});
 
-		this.setMaterielUtile(
-		[{
-			$key: '',
-			nomoj: '',
-			titre: '',
-			categorie: '',
-			type: '',
-			location: '',
-			photo: '',
-			remarque: ''
-		}]);
-
 		this.setMaterielActif(
 		{
 			$key: '',
@@ -643,7 +687,7 @@ export class DatalogueComponent
 			titre: '',
 			categorie: '',
 			type: '',
-			location: '',
+			loca: '',
 			photo: '',
 			remarque: ''
 		})

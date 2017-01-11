@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require("@angular/core");
+var core_1 = require('@angular/core');
 var DatalogueComponent = (function () {
     function DatalogueComponent() {
         this.hideInstitution = false;
@@ -40,7 +40,9 @@ var DatalogueComponent = (function () {
         this.appState = 'datalogue';
         this.dataState = 'matut';
         this.institutionState = 'default';
+        this.equipeState = 'default';
         this.actionsState = 'default';
+        this.matutState = 'default';
         this.listeOj = [];
         this.equipe = [];
         this.actions = [];
@@ -48,7 +50,6 @@ var DatalogueComponent = (function () {
         //bouton
         // MAINT
         this.setDataDefault();
-        console.log(this.actionsState);
     }
     DatalogueComponent.prototype.changeState = function (state) {
         this.appState = state;
@@ -101,11 +102,14 @@ var DatalogueComponent = (function () {
         this.materielActif = matut;
     };
     // UPDATE
+    DatalogueComponent.prototype.updEquipe = function () {
+        this.changeEquipeState('show');
+    };
     DatalogueComponent.prototype.updAction = function () {
         this.changeActionsState('show');
     };
     DatalogueComponent.prototype.updMateriel = function () {
-        this.changeMatUtState('default');
+        this.changeMatUtState('show');
     };
     // ADD
     DatalogueComponent.prototype.addOj = function (nomoj) {
@@ -115,7 +119,27 @@ var DatalogueComponent = (function () {
         this.listeOj.push(newOj);
         this.btnAddOj();
     };
-    DatalogueComponent.prototype.addEq = function (sexe, pnom, nom, tel, email, role) {
+    DatalogueComponent.prototype.addEq = function (sexe, pnom, nom, tel, email, role, engagele, qualif, datequalif, contrat, etp) {
+        console.log('entered');
+        this.employeActif =
+            {
+                nomoj: '',
+                pnom: '',
+                nom: '',
+                engagele: '',
+                email: '',
+                tel: '',
+                qualif: '',
+                sexe: '',
+                role: '',
+                specificite: [],
+                contrat: '',
+                etp: '',
+                coordo: false,
+                photo: '',
+                datequalif: ''
+            };
+        console.log(this.employeActif);
         var newEq = {
             nomoj: this.ojActive.$key,
             sexe: sexe,
@@ -123,10 +147,20 @@ var DatalogueComponent = (function () {
             nom: nom,
             tel: tel,
             email: email,
-            role: role
+            role: role,
+            engagele: engagele,
+            qualif: qualif,
+            datequalif: datequalif,
+            contrat: contrat,
+            etp: etp,
+            coordo: false,
+            photo: ''
         };
+        console.log(newEq);
+        var l = this.equipe.length;
         this.equipe.push(newEq);
-        this.btnAddEq();
+        this.employeActif = this.equipe[l];
+        this.changeEquipeState('show');
     };
     //, annee:string, theme:string, pubcib:string, freq:string, duree:string, temporaire:boolean, du:string, au:string
     DatalogueComponent.prototype.addAction = function (titre, type, annee, theme, pubcib, freq, duree, temporaire, du, au) {
@@ -159,20 +193,19 @@ var DatalogueComponent = (function () {
         this.actionActive.duree = duree;
         this.actionActive.du = du;
         this.actionActive.au = au;
-        console.log(this.actionActive);
         var l = this.actions.length;
         this.actions.push(this.actionActive);
         this.actionActive = this.actions[l];
         this.changeActionsState('show');
     };
-    DatalogueComponent.prototype.addMaterielUtile = function (titre, categorie, type, location, photo, remarque) {
+    DatalogueComponent.prototype.addMaterielUtile = function (titre, categorie, type, loca, photo, remarque) {
         this.setMaterielActif({
             $key: '',
             nomoj: '',
             titre: '',
             categorie: '',
             type: '',
-            location: '',
+            loca: '',
             photo: '',
             remarque: ''
         });
@@ -181,7 +214,7 @@ var DatalogueComponent = (function () {
         this.materielActif.titre = titre;
         this.materielActif.categorie = categorie;
         this.materielActif.type = type;
-        this.materielActif.location = location;
+        this.materielActif.loca = loca;
         this.materielActif.photo = photo;
         this.materielActif.remarque = remarque;
         var l = this.materielUtile.length;
@@ -257,7 +290,31 @@ var DatalogueComponent = (function () {
         this.addojbtn = !this.addojbtn;
     };
     DatalogueComponent.prototype.btnAddEq = function () {
-        this.addEqBtn = !this.addEqBtn;
+        this.setEmployeActif({
+            nomoj: '',
+            pnom: '',
+            nom: '',
+            engagele: '',
+            email: '',
+            tel: '',
+            qualif: '',
+            sexe: '',
+            role: '',
+            specificite: [],
+            contrat: '',
+            etp: '',
+            coordo: true,
+            photo: '',
+            datequalif: ''
+        });
+        this.changeEquipeState('new');
+    };
+    DatalogueComponent.prototype.btnEditEmploye = function () {
+        this.changeEquipeState('edit');
+    };
+    DatalogueComponent.prototype.btnSelectEmploye = function (employe) {
+        this.employeActif = employe;
+        this.changeEquipeState('show');
     };
     DatalogueComponent.prototype.btnActTemp = function () {
         this.actTempBtn = !this.actTempBtn;
@@ -292,10 +349,11 @@ var DatalogueComponent = (function () {
         this.setMaterielActif({
             $key: '',
             nomoj: '',
+            photo: '',
             titre: '',
             categorie: '',
             type: '',
-            location: '',
+            loca: '',
             remarque: ''
         });
         this.changeMatUtState('new');
@@ -441,23 +499,7 @@ var DatalogueComponent = (function () {
             logo: '',
             cat: ''
         });
-        this.setEquipe([{
-                nomoj: '',
-                pnom: '',
-                nom: '',
-                engagele: '',
-                email: '',
-                tel: '',
-                qualif: '',
-                sexe: '',
-                role: '',
-                specificite: [],
-                contrat: '',
-                etp: '',
-                coordo: true,
-                photo: '',
-                datequalif: ''
-            }]);
+        this.setEquipe([]);
         this.setActionActive({
             $key: '',
             nomoj: '',
@@ -474,36 +516,26 @@ var DatalogueComponent = (function () {
             temporaire: false,
             dernieremodifpar: ''
         });
-        this.setMaterielUtile([{
-                $key: '',
-                nomoj: '',
-                titre: '',
-                categorie: '',
-                type: '',
-                location: '',
-                photo: '',
-                remarque: ''
-            }]);
         this.setMaterielActif({
             $key: '',
             nomoj: '',
             titre: '',
             categorie: '',
             type: '',
-            location: '',
+            loca: '',
             photo: '',
             remarque: ''
         });
     };
+    DatalogueComponent = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'datalogue',
+            templateUrl: "datalogue.component.html"
+        }), 
+        __metadata('design:paramtypes', [])
+    ], DatalogueComponent);
     return DatalogueComponent;
 }());
-DatalogueComponent = __decorate([
-    core_1.Component({
-        moduleId: module.id,
-        selector: 'datalogue',
-        templateUrl: "datalogue.component.html"
-    }),
-    __metadata("design:paramtypes", [])
-], DatalogueComponent);
 exports.DatalogueComponent = DatalogueComponent;
 //# sourceMappingURL=datalogue.component.js.map

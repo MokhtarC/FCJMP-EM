@@ -5,7 +5,7 @@ export interface MaterielUtile
 	titre: string;
 	categorie?: string;
 	type?: string;
-	location?: string;
+	loca?: string;
 	photo?: string;
 	remarque?: string;
 }

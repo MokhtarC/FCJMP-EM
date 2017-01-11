@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var core_1 = require("@angular/core");
+var core_1 = require('@angular/core');
 var EditorComponent = (function () {
     function EditorComponent(elementRef) {
         this.elementRef = elementRef;
@@ -65,17 +65,17 @@ var EditorComponent = (function () {
         enumerable: true,
         configurable: true
     });
+    EditorComponent = __decorate([
+        core_1.Component({
+            selector: 'editor',
+            template: "<div id=\"tinyFormGroup\" class=\"form-group\">\n    <div class=\"hidden\">\n        <textarea id=\"baseTextArea\">{{htmlContent}}</textarea>\n    </div>\n</div>",
+            inputs: ['mceContent'],
+            outputs: ['contentChanged']
+        }),
+        __param(0, core_1.Inject(core_1.ElementRef)), 
+        __metadata('design:paramtypes', [core_1.ElementRef])
+    ], EditorComponent);
     return EditorComponent;
 }());
-EditorComponent = __decorate([
-    core_1.Component({
-        selector: 'editor',
-        template: "<div id=\"tinyFormGroup\" class=\"form-group\">\n    <div class=\"hidden\">\n        <textarea id=\"baseTextArea\">{{htmlContent}}</textarea>\n    </div>\n</div>",
-        inputs: ['mceContent'],
-        outputs: ['contentChanged']
-    }),
-    __param(0, core_1.Inject(core_1.ElementRef)),
-    __metadata("design:paramtypes", [core_1.ElementRef])
-], EditorComponent);
 exports.EditorComponent = EditorComponent;
 //# sourceMappingURL=editor.component.js.map
